@@ -4,9 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASHY | Royal Thai Honeymoon Special</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Alpine.js -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <script>
@@ -18,64 +28,52 @@
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
                     },
                     colors: {
-                        brand: {
-                            gold: '#D4AF37',
-                            dark: '#0B0F19',
-                            cream: '#F9F8F6',
-                            accent: '#C5A028'
-                        }
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            light: '#F3E5AB',
+                            dark: '#C5A028'
+                        },
+                        navy: '#0B0F19',
+                        cream: '#F9F8F6'
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Fallback for images */
-        .img-fallback {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #94a3b8;
-            font-family: 'Playfair Display', serif;
-        }
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
         [x-cloak] { display: none !important; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
     </style>
 </head>
-<body class="bg-brand-cream text-slate-800 antialiased" x-data="{ mobileMenu: false, activeTab: 'itinerary' }">
+<body class="bg-cream text-slate-800 antialiased" x-data="{ mobileMenu: false, modalOpen: null }">
 
     <!-- Navbar -->
-    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur border-b border-gray-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
-                <!-- Logo -->
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-brand-dark rounded-full flex items-center justify-center text-brand-gold">
+                    <div class="w-10 h-10 bg-navy rounded-full flex items-center justify-center text-gold">
                         <i data-lucide="plane" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h1 class="font-serif font-bold text-xl text-brand-dark leading-none">Veena World</h1>
-                        <span class="text-[10px] tracking-[0.2em] uppercase text-gray-500 font-bold">Honeymoon • ASHY</span>
+                        <h1 class="font-serif font-bold text-xl text-navy leading-none">Veena World</h1>
+                        <span class="text-[10px] tracking-widest uppercase text-gray-500 font-bold">Honeymoon • ASHY</span>
                     </div>
                 </div>
 
-                <!-- Desktop Links -->
                 <div class="hidden md:flex items-center gap-8">
-                    <a href="#overview" class="text-sm font-medium hover:text-brand-accent transition">Overview</a>
-                    <a href="#itinerary" class="text-sm font-medium hover:text-brand-accent transition">Itinerary</a>
-                    <a href="#pricing" class="text-sm font-medium hover:text-brand-accent transition">Pricing</a>
-                    <a href="#reviews" class="text-sm font-medium hover:text-brand-accent transition">Reviews</a>
-                    <a href="tel:18003135555" class="bg-brand-dark text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-brand-accent transition flex items-center gap-2">
+                    <a href="#itinerary" class="text-sm font-medium hover:text-gold-dark transition">Itinerary</a>
+                    <a href="#pricing" class="text-sm font-medium hover:text-gold-dark transition">Pricing</a>
+                    <a href="#inclusions" class="text-sm font-medium hover:text-gold-dark transition">Inclusions</a>
+                    <a href="tel:18003135555" class="bg-navy text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-gold-dark transition flex items-center gap-2 shadow-lg">
                         <i data-lucide="phone" class="w-4 h-4"></i> 1800 313 5555
                     </a>
                 </div>
 
-                <!-- Mobile Button -->
                 <button @click="mobileMenu = !mobileMenu" class="md:hidden p-2 text-slate-600">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
@@ -91,303 +89,291 @@
     </nav>
 
     <!-- Hero Section -->
-    <header id="overview" class="relative pt-32 pb-20 px-6 lg:px-8 max-w-7xl mx-auto min-h-[90vh] flex flex-col justify-center">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
-            
-            <!-- Text Content -->
-            <div class="order-2 lg:order-1 space-y-8">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-xs font-bold uppercase tracking-wide">
-                    <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
-                    Selling Fast: May 2026
-                </div>
-                
-                <h1 class="font-serif text-5xl lg:text-7xl font-bold text-brand-dark leading-[1.1]">
-                    Royal Thai <br>
-                    <span class="text-brand-accent italic">Honeymoon</span>
-                </h1>
-                
-                <p class="text-lg text-slate-600 leading-relaxed max-w-lg">
-                    An 8-day curated journey through the limestone cliffs of Krabi, the islands of Phuket, and the neon lights of Bangkok. Designed exclusively for couples.
-                </p>
+    <header class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        <!-- Main Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img 
+                src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=2000&q=80" 
+                alt="Thailand Ocean" 
+                class="w-full h-full object-cover"
+                onerror="this.src='https://placehold.co/1920x1080/0B0F19/FFF?text=Thailand+Paradise'"
+            >
+            <div class="absolute inset-0 bg-gradient-to-b from-navy/40 via-navy/20 to-navy/80"></div>
+        </div>
 
-                <div class="grid grid-cols-2 gap-6 border-t border-slate-200 pt-8">
-                    <div>
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Duration</p>
-                        <p class="text-xl font-serif font-bold text-brand-dark">8 Days / 7 Nights</p>
-                    </div>
-                    <div>
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Start Date</p>
-                        <p class="text-xl font-serif font-bold text-brand-dark">17 May 2026</p>
-                    </div>
-                    <div>
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Cities</p>
-                        <p class="text-xl font-serif font-bold text-brand-dark">Krabi, Phuket, Pattaya, Bangkok</p>
-                    </div>
-                    <div>
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">All Inclusive</p>
-                        <p class="text-xl font-serif font-bold text-brand-accent">₹1,32,000</p>
-                    </div>
-                </div>
-
-                <div class="flex gap-4 pt-4">
-                    <a href="#pricing" class="bg-brand-dark text-white px-8 py-4 rounded-full font-medium hover:bg-brand-accent transition shadow-lg hover:shadow-xl translate-y-0 hover:-translate-y-1 duration-300">
-                        View Full Pricing
-                    </a>
-                    <a href="#itinerary" class="px-8 py-4 rounded-full font-medium border border-slate-300 hover:border-brand-dark hover:bg-white transition">
-                        See Daily Plan
-                    </a>
-                </div>
+        <div class="relative z-10 container mx-auto px-6 text-center text-white mt-16">
+            <div class="inline-block border border-white/30 bg-white/10 backdrop-blur-md px-5 py-1.5 rounded-full text-sm font-bold tracking-widest uppercase mb-6">
+                Tour Code: ASHY
             </div>
+            
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6 drop-shadow-2xl">
+                Royal Thai <br>
+                <span class="text-gold italic">Honeymoon</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+                8 Days of romance across Krabi, Phuket, Pattaya & Bangkok. <br class="hidden md:block">
+                Experience limestone cliffs, emerald waters, and vibrant city lights.
+            </p>
 
-            <!-- Hero Image / Visual -->
-            <div class="order-1 lg:order-2 relative group">
-                <div class="absolute inset-0 bg-brand-accent/20 rounded-[2rem] transform rotate-6 scale-95 group-hover:rotate-3 transition-transform duration-500"></div>
-                <div class="relative rounded-[2rem] overflow-hidden shadow-2xl aspect-[4/5]">
-                    <img 
-                        src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                        alt="Thailand Longtail Boat" 
-                        class="w-full h-full object-cover transform scale-100 group-hover:scale-110 transition-transform duration-700"
-                        onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-slate-800 flex flex-col items-center justify-center text-white p-8 text-center\'><i data-lucide=\'image-off\' class=\'w-12 h-12 mb-4 opacity-50\'></i><span class=\'font-serif text-2xl\'>Experience Thailand</span></div>'"
-                    >
-                    
-                    <!-- Floating Badge -->
-                    <div class="absolute bottom-8 left-8 bg-white/95 backdrop-blur p-4 rounded-2xl shadow-lg max-w-xs">
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                                <i data-lucide="check" class="w-4 h-4"></i>
-                            </div>
-                            <span class="text-xs font-bold uppercase tracking-wide text-slate-500">Veena World Certified</span>
-                        </div>
-                        <p class="text-sm font-medium text-slate-800">"Everything was well organized... made the journey stress-free."</p>
-                        <p class="text-xs text-slate-500 mt-1">- Yash Mutha, Guest</p>
-                    </div>
+            <!-- Stats Bar -->
+            <div class="glass-panel text-slate-800 rounded-2xl p-6 md:p-8 max-w-4xl mx-auto shadow-2xl grid grid-cols-2 md:grid-cols-4 gap-6 text-left">
+                <div class="border-l-4 border-gold pl-4">
+                    <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">Start Date</p>
+                    <p class="text-lg md:text-xl font-bold">17 May 2026</p>
+                </div>
+                <div class="border-l-4 border-gold pl-4">
+                    <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">End Date</p>
+                    <p class="text-lg md:text-xl font-bold">24 May 2026</p>
+                </div>
+                <div class="border-l-4 border-gold pl-4">
+                    <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">Departure</p>
+                    <p class="text-lg md:text-xl font-bold">Mumbai</p>
+                </div>
+                <div class="border-l-4 border-gold pl-4 bg-gold/10 -m-4 p-4 rounded-r-xl flex flex-col justify-center">
+                    <p class="text-xs text-gray-600 uppercase font-bold tracking-wider">Total Price</p>
+                    <p class="text-2xl font-serif font-bold text-navy">₹1,32,000</p>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Itinerary Grid -->
-    <section id="itinerary" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-20">
-                <h2 class="font-serif text-4xl font-bold text-brand-dark mb-4">The Journey</h2>
-                <div class="w-24 h-1 bg-brand-gold mx-auto mb-6"></div>
-                <p class="text-slate-600">From the beaches of Krabi to the temples of Bangkok. Hover over any day to reveal details.</p>
+    <!-- Itinerary Section -->
+    <section id="itinerary" class="py-24 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-4xl text-navy font-bold mb-4">Your Daily Journey</h2>
+                <div class="h-1 w-20 bg-gold mx-auto"></div>
+                <p class="mt-4 text-gray-600">Hover over the cards to see details.</p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 
-                <!-- Day 1 -->
-                <article class="group relative bg-slate-50 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                    <div class="h-48 overflow-hidden bg-slate-200 relative">
-                         <img src="https://images.unsplash.com/photo-1483683804023-6acaa4f0923e?w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Krabi"
-                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-teal-800 flex items-center justify-center text-white/50\'><i data-lucide=\'sunset\' class=\'w-10 h-10\'></i></div>'">
-                         <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold">Day 1 • 17 May</div>
+                <!-- Day 1 Card -->
+                <div class="group relative h-[400px] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500" @click="modalOpen = 1">
+                    <img 
+                        src="https://images.unsplash.com/photo-1483683804023-6acaa4f0923e?auto=format&fit=crop&w=800&q=80" 
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Krabi Sunset"
+                        onerror="this.src='https://placehold.co/600x800/2dd4bf/FFF?text=Day+1+Krabi'"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute top-4 left-4 bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full">Day 1 • 17 May</div>
+                    <div class="absolute bottom-0 left-0 p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-2xl font-bold mb-2">Arrival in Krabi</h3>
+                        <p class="text-sm text-gray-300 line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                            Fly from Mumbai. Check-in to hotel. Sunset at Ao Nang Beach.
+                        </p>
+                        <div class="flex items-center text-xs font-bold uppercase tracking-wider text-gold">
+                            Read More <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-serif text-xl font-bold text-brand-dark mb-2">Arrival in Krabi</h3>
-                        <p class="text-sm text-slate-500 mb-4 line-clamp-2">Fly to Krabi. Transfer to hotel. Evening visit to Ao Nang Beach for a spectacular sunset.</p>
-                        <ul class="text-xs text-slate-600 space-y-2 border-t pt-4">
-                            <li class="flex items-center gap-2"><i data-lucide="plane" class="w-3 h-3 text-brand-accent"></i> Flight from Mumbai</li>
-                            <li class="flex items-center gap-2"><i data-lucide="moon" class="w-3 h-3 text-brand-accent"></i> Stay in Krabi</li>
-                            <li class="flex items-center gap-2"><i data-lucide="utensils" class="w-3 h-3 text-brand-accent"></i> Dinner Included</li>
-                        </ul>
-                    </div>
-                </article>
+                </div>
 
-                <!-- Day 2 -->
-                <article class="group relative bg-slate-50 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                    <div class="h-48 overflow-hidden bg-slate-200 relative">
-                         <img src="https://images.unsplash.com/photo-1537956965359-7573183d1f57?w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Island Hopping"
-                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-cyan-800 flex items-center justify-center text-white/50\'><i data-lucide=\'anchor\' class=\'w-10 h-10\'></i></div>'">
-                         <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold">Day 2 • 18 May</div>
+                <!-- Day 2 Card -->
+                <div class="group relative h-[400px] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500" @click="modalOpen = 2">
+                    <img 
+                        src="https://images.unsplash.com/photo-1537956965359-7573183d1f57?auto=format&fit=crop&w=800&q=80" 
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Island Hopping"
+                        onerror="this.src='https://placehold.co/600x800/0ea5e9/FFF?text=Day+2+Islands'"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute top-4 left-4 bg-white/90 text-navy text-xs font-bold px-3 py-1 rounded-full">Day 2 • 18 May</div>
+                    <div class="absolute bottom-0 left-0 p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-2xl font-bold mb-2">4-Island Tour</h3>
+                        <p class="text-sm text-gray-300 line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                            Speedboat to Phra Nang, Tup, Chicken & Poda Islands. Transfer to Phuket.
+                        </p>
+                        <div class="flex items-center text-xs font-bold uppercase tracking-wider text-gold">
+                            Read More <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-serif text-xl font-bold text-brand-dark mb-2">4-Island Tour</h3>
-                        <p class="text-sm text-slate-500 mb-4 line-clamp-2">Speedboat to Phra Nang Cave, Tup, Chicken & Poda Islands. Ferry to Phuket.</p>
-                        <ul class="text-xs text-slate-600 space-y-2 border-t pt-4">
-                            <li class="flex items-center gap-2"><i data-lucide="anchor" class="w-3 h-3 text-brand-accent"></i> Speedboat Ride</li>
-                            <li class="flex items-center gap-2"><i data-lucide="moon" class="w-3 h-3 text-brand-accent"></i> Stay in Phuket</li>
-                            <li class="flex items-center gap-2"><i data-lucide="utensils" class="w-3 h-3 text-brand-accent"></i> B, L, D Included</li>
-                        </ul>
-                    </div>
-                </article>
+                </div>
 
-                <!-- Day 3 -->
-                <article class="group relative bg-slate-50 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                    <div class="h-48 overflow-hidden bg-slate-200 relative">
-                         <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="James Bond Island"
-                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-emerald-800 flex items-center justify-center text-white/50\'><i data-lucide=\'camera\' class=\'w-10 h-10\'></i></div>'">
-                         <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold">Day 3 • 19 May</div>
+                <!-- Day 3 Card -->
+                <div class="group relative h-[400px] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500" @click="modalOpen = 3">
+                    <img 
+                        src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80" 
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="James Bond Island"
+                        onerror="this.src='https://placehold.co/600x800/10b981/FFF?text=Day+3+James+Bond'"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute top-4 left-4 bg-white/90 text-navy text-xs font-bold px-3 py-1 rounded-full">Day 3 • 19 May</div>
+                    <div class="absolute bottom-0 left-0 p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-2xl font-bold mb-2">James Bond Island</h3>
+                        <p class="text-sm text-gray-300 line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                            Visit the famous 007 Island. Evening Fantasea or Siam Niramit Show.
+                        </p>
+                        <div class="flex items-center text-xs font-bold uppercase tracking-wider text-gold">
+                            Read More <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-serif text-xl font-bold text-brand-dark mb-2">James Bond Island</h3>
-                        <p class="text-sm text-slate-500 mb-4 line-clamp-2">Visit 'The Man with the Golden Gun' island. Evening Fantasea/Siam Niramit Show.</p>
-                        <ul class="text-xs text-slate-600 space-y-2 border-t pt-4">
-                            <li class="flex items-center gap-2"><i data-lucide="camera" class="w-3 h-3 text-brand-accent"></i> 007 Island Location</li>
-                            <li class="flex items-center gap-2"><i data-lucide="star" class="w-3 h-3 text-brand-accent"></i> Cultural Show</li>
-                            <li class="flex items-center gap-2"><i data-lucide="ice-cream" class="w-3 h-3 text-brand-accent"></i> Treat Included</li>
-                        </ul>
-                    </div>
-                </article>
+                </div>
 
-                <!-- Day 4 -->
-                <article class="group relative bg-slate-50 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                    <div class="h-48 overflow-hidden bg-slate-200 relative">
-                         <img src="https://images.unsplash.com/photo-1561652422-965a91436814?w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Cabaret"
-                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-purple-900 flex items-center justify-center text-white/50\'><i data-lucide=\'music\' class=\'w-10 h-10\'></i></div>'">
-                         <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold">Day 4 • 20 May</div>
+                <!-- Day 4 Card -->
+                <div class="group relative h-[400px] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500" @click="modalOpen = 4">
+                    <img 
+                        src="https://images.unsplash.com/photo-1561652422-965a91436814?auto=format&fit=crop&w=800&q=80" 
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Cabaret Show"
+                        onerror="this.src='https://placehold.co/600x800/d946ef/FFF?text=Day+4+Cabaret'"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute top-4 left-4 bg-white/90 text-navy text-xs font-bold px-3 py-1 rounded-full">Day 4 • 20 May</div>
+                    <div class="absolute bottom-0 left-0 p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-2xl font-bold mb-2">Bangkok & Alcazar</h3>
+                        <p class="text-sm text-gray-300 line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                            Fly to Bangkok. Drive to Pattaya. Watch the Alcazar Cabaret.
+                        </p>
+                        <div class="flex items-center text-xs font-bold uppercase tracking-wider text-gold">
+                            Read More <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-serif text-xl font-bold text-brand-dark mb-2">Bangkok & Alcazar</h3>
-                        <p class="text-sm text-slate-500 mb-4 line-clamp-2">Fly to Bangkok. Drive to Pattaya. Watch the world-famous Alcazar Cabaret.</p>
-                        <ul class="text-xs text-slate-600 space-y-2 border-t pt-4">
-                            <li class="flex items-center gap-2"><i data-lucide="plane" class="w-3 h-3 text-brand-accent"></i> Flight Included</li>
-                            <li class="flex items-center gap-2"><i data-lucide="music" class="w-3 h-3 text-brand-accent"></i> Cabaret Ticket Inc.</li>
-                            <li class="flex items-center gap-2"><i data-lucide="moon" class="w-3 h-3 text-brand-accent"></i> Stay in Pattaya</li>
-                        </ul>
-                    </div>
-                </article>
+                </div>
 
-                <!-- Day 5 -->
-                <article class="group relative bg-slate-50 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                    <div class="h-48 overflow-hidden bg-slate-200 relative">
-                         <img src="https://images.unsplash.com/photo-1590089415225-401eb6b9e9e2?w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Nong Nooch"
-                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-green-800 flex items-center justify-center text-white/50\'><i data-lucide=\'flower\' class=\'w-10 h-10\'></i></div>'">
-                         <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold">Day 5 • 21 May</div>
+                <!-- Day 5 Card -->
+                <div class="group relative h-[400px] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500" @click="modalOpen = 5">
+                    <img 
+                        src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=800&q=80" 
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Nong Nooch Garden"
+                        onerror="this.src='https://placehold.co/600x800/84cc16/FFF?text=Day+5+Gardens'"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute top-4 left-4 bg-white/90 text-navy text-xs font-bold px-3 py-1 rounded-full">Day 5 • 21 May</div>
+                    <div class="absolute bottom-0 left-0 p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-2xl font-bold mb-2">Coral Island</h3>
+                        <p class="text-sm text-gray-300 line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                            Water sports. Nong Nooch Botanical Garden. Thai Massage.
+                        </p>
+                        <div class="flex items-center text-xs font-bold uppercase tracking-wider text-gold">
+                            Read More <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-serif text-xl font-bold text-brand-dark mb-2">Coral Island</h3>
-                        <p class="text-sm text-slate-500 mb-4 line-clamp-2">Water sports at Coral Island. Afternoon at Nong Nooch Gardens. Thai Massage.</p>
-                        <ul class="text-xs text-slate-600 space-y-2 border-t pt-4">
-                            <li class="flex items-center gap-2"><i data-lucide="wind" class="w-3 h-3 text-brand-accent"></i> Parasailing Inc.</li>
-                            <li class="flex items-center gap-2"><i data-lucide="flower" class="w-3 h-3 text-brand-accent"></i> Botanical Garden</li>
-                            <li class="flex items-center gap-2"><i data-lucide="heart" class="w-3 h-3 text-brand-accent"></i> Scientific Massage</li>
-                        </ul>
-                    </div>
-                </article>
+                </div>
 
-                <!-- Day 6 -->
-                <article class="group relative bg-slate-50 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                    <div class="h-48 overflow-hidden bg-slate-200 relative">
-                         <img src="https://images.unsplash.com/photo-1563720972379-994191c9536c?w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Shopping"
-                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-indigo-900 flex items-center justify-center text-white/50\'><i data-lucide=\'shopping-bag\' class=\'w-10 h-10\'></i></div>'">
-                         <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold">Day 6 • 22 May</div>
+                <!-- Day 6 Card -->
+                <div class="group relative h-[400px] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500" @click="modalOpen = 6">
+                    <img 
+                        src="https://images.unsplash.com/photo-1563720972379-994191c9536c?auto=format&fit=crop&w=800&q=80" 
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Shopping"
+                        onerror="this.src='https://placehold.co/600x800/6366f1/FFF?text=Day+6+Shopping'"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute top-4 left-4 bg-white/90 text-navy text-xs font-bold px-3 py-1 rounded-full">Day 6 • 22 May</div>
+                    <div class="absolute bottom-0 left-0 p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-2xl font-bold mb-2">Sky High Views</h3>
+                        <p class="text-sm text-gray-300 line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                            Pattaya Tower. Gems Gallery. Return to Bangkok. Shopping.
+                        </p>
+                        <div class="flex items-center text-xs font-bold uppercase tracking-wider text-gold">
+                            Read More <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-serif text-xl font-bold text-brand-dark mb-2">Sky High & Shopping</h3>
-                        <p class="text-sm text-slate-500 mb-4 line-clamp-2">Pattaya Tower jump/view. Gems Gallery. Transfer to Bangkok. Shopping at Indra Square.</p>
-                        <ul class="text-xs text-slate-600 space-y-2 border-t pt-4">
-                            <li class="flex items-center gap-2"><i data-lucide="arrow-up" class="w-3 h-3 text-brand-accent"></i> Tower Entry Inc.</li>
-                            <li class="flex items-center gap-2"><i data-lucide="shopping-bag" class="w-3 h-3 text-brand-accent"></i> Gems Gallery</li>
-                            <li class="flex items-center gap-2"><i data-lucide="moon" class="w-3 h-3 text-brand-accent"></i> Stay in Bangkok</li>
-                        </ul>
-                    </div>
-                </article>
+                </div>
 
-                <!-- Day 7 -->
-                <article class="group relative bg-slate-50 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                    <div class="h-48 overflow-hidden bg-slate-200 relative">
-                         <img src="https://images.unsplash.com/photo-1559628376-f3fe5f782a2e?w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="River Cruise"
-                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-blue-900 flex items-center justify-center text-white/50\'><i data-lucide=\'ship\' class=\'w-10 h-10\'></i></div>'">
-                         <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold">Day 7 • 23 May</div>
+                <!-- Day 7 Card -->
+                <div class="group relative h-[400px] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500" @click="modalOpen = 7">
+                    <img 
+                        src="https://images.unsplash.com/photo-1559628376-f3fe5f782a2e?auto=format&fit=crop&w=800&q=80" 
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="River Cruise"
+                        onerror="this.src='https://placehold.co/600x800/f43f5e/FFF?text=Day+7+Cruise'"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute top-4 left-4 bg-white/90 text-navy text-xs font-bold px-3 py-1 rounded-full">Day 7 • 23 May</div>
+                    <div class="absolute bottom-0 left-0 p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-2xl font-bold mb-2">Safari & Cruise</h3>
+                        <p class="text-sm text-gray-300 line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                            Safari World & Marine Park. Chao Phraya River Dinner Cruise.
+                        </p>
+                        <div class="flex items-center text-xs font-bold uppercase tracking-wider text-gold">
+                            Read More <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-serif text-xl font-bold text-brand-dark mb-2">Safari & Cruise</h3>
-                        <p class="text-sm text-slate-500 mb-4 line-clamp-2">Safari World (Dolphins, Spy War). Romantic Dinner Cruise on Chao Phraya River.</p>
-                        <ul class="text-xs text-slate-600 space-y-2 border-t pt-4">
-                            <li class="flex items-center gap-2"><i data-lucide="camera" class="w-3 h-3 text-brand-accent"></i> Safari Ticket Inc.</li>
-                            <li class="flex items-center gap-2"><i data-lucide="ship" class="w-3 h-3 text-brand-accent"></i> Dinner Cruise</li>
-                            <li class="flex items-center gap-2"><i data-lucide="heart" class="w-3 h-3 text-brand-accent"></i> Romantic Evening</li>
-                        </ul>
-                    </div>
-                </article>
+                </div>
 
-                <!-- Day 8 -->
-                <article class="group relative bg-slate-50 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                    <div class="h-48 overflow-hidden bg-slate-200 relative">
-                         <img src="https://images.unsplash.com/photo-1599573867622-c32431634560?w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="Wat Pho"
-                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-yellow-700 flex items-center justify-center text-white/50\'><i data-lucide=\'sun\' class=\'w-10 h-10\'></i></div>'">
-                         <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold">Day 8 • 24 May</div>
+                <!-- Day 8 Card -->
+                <div class="group relative h-[400px] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500" @click="modalOpen = 8">
+                    <img 
+                        src="https://images.unsplash.com/photo-1599573867622-c32431634560?auto=format&fit=crop&w=800&q=80" 
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt="Wat Pho"
+                        onerror="this.src='https://placehold.co/600x800/eab308/FFF?text=Day+8+Buddha'"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                    <div class="absolute top-4 left-4 bg-navy text-gold text-xs font-bold px-3 py-1 rounded-full">Day 8 • 24 May</div>
+                    <div class="absolute bottom-0 left-0 p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <h3 class="font-serif text-2xl font-bold mb-2">Golden Buddha</h3>
+                        <p class="text-sm text-gray-300 line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                            Wat Pho Temple. City Orientation. Flight back to Mumbai.
+                        </p>
+                        <div class="flex items-center text-xs font-bold uppercase tracking-wider text-gold">
+                            Read More <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-serif text-xl font-bold text-brand-dark mb-2">Golden Buddha</h3>
-                        <p class="text-sm text-slate-500 mb-4 line-clamp-2">City orientation. Visit Wat Pho (Reclining Buddha). Transfer to airport.</p>
-                        <ul class="text-xs text-slate-600 space-y-2 border-t pt-4">
-                            <li class="flex items-center gap-2"><i data-lucide="sun" class="w-3 h-3 text-brand-accent"></i> Temple Visit</li>
-                            <li class="flex items-center gap-2"><i data-lucide="bus" class="w-3 h-3 text-brand-accent"></i> Airport Transfer</li>
-                            <li class="flex items-center gap-2"><i data-lucide="plane" class="w-3 h-3 text-brand-accent"></i> Return to Mumbai</li>
-                        </ul>
-                    </div>
-                </article>
-
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Pricing Section -->
-    <section id="pricing" class="py-24 bg-brand-dark text-white relative overflow-hidden">
+    <section id="pricing" class="py-24 bg-navy text-white relative overflow-hidden">
         <!-- Background decorative blobs -->
-        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-gold opacity-10 blur-[100px] rounded-full"></div>
-        <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-900 opacity-20 blur-[100px] rounded-full"></div>
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gold opacity-10 blur-[100px] rounded-full"></div>
+        <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-900 opacity-20 blur-[100px] rounded-full"></div>
 
         <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-2 gap-16 items-start">
                 
                 <div>
                     <h2 class="font-serif text-4xl lg:text-5xl font-bold mb-6">Investment in Memories</h2>
-                    <p class="text-slate-400 text-lg mb-8">Transparent pricing with no hidden surprises. Your honeymoon deserves the best without the stress.</p>
+                    <p class="text-slate-400 text-lg mb-8">Transparent pricing. No hidden surprises. Your honeymoon deserves luxury.</p>
                     
                     <div class="bg-white/5 border border-white/10 rounded-2xl p-8 mb-8">
                         <div class="flex items-end gap-2 mb-2">
-                            <span class="text-5xl font-serif font-bold text-brand-gold">₹1,32,000</span>
+                            <span class="text-5xl font-serif font-bold text-gold">₹1,32,000</span>
                             <span class="text-sm text-slate-400 mb-2">/ person</span>
                         </div>
                         <p class="text-sm text-slate-400">*Excluding GST (5%) & TCS (5% or 10%)</p>
-                        <div class="mt-6 flex flex-wrap gap-2">
-                            <span class="px-3 py-1 rounded bg-white/10 text-xs uppercase tracking-wider">Twin Sharing</span>
-                            <span class="px-3 py-1 rounded bg-white/10 text-xs uppercase tracking-wider">4 Cities</span>
-                            <span class="px-3 py-1 rounded bg-white/10 text-xs uppercase tracking-wider">Flight Inc.</span>
-                        </div>
                     </div>
 
                     <div class="space-y-4">
                         <h3 class="font-bold text-white uppercase tracking-wider text-sm">Tour Inclusions</h3>
                         <div class="grid grid-cols-2 gap-3 text-sm text-slate-300">
-                            <div class="flex items-center gap-2"><i data-lucide="check" class="text-brand-gold w-4 h-4"></i> Economy Flights (Mum-Mum)</div>
-                            <div class="flex items-center gap-2"><i data-lucide="check" class="text-brand-gold w-4 h-4"></i> Internal Flight (Phuket-BKK)</div>
-                            <div class="flex items-center gap-2"><i data-lucide="check" class="text-brand-gold w-4 h-4"></i> All Meals (B,L,D)</div>
-                            <div class="flex items-center gap-2"><i data-lucide="check" class="text-brand-gold w-4 h-4"></i> 3-4 Star Hotels</div>
-                            <div class="flex items-center gap-2"><i data-lucide="check" class="text-brand-gold w-4 h-4"></i> All Sightseeing Tickets</div>
-                            <div class="flex items-center gap-2"><i data-lucide="check" class="text-brand-gold w-4 h-4"></i> Visa Fees (On Arrival)</div>
+                            <div class="flex items-center gap-2"><i data-lucide="check" class="text-gold w-4 h-4"></i> Flights (Mumbai Return)</div>
+                            <div class="flex items-center gap-2"><i data-lucide="check" class="text-gold w-4 h-4"></i> Internal Flights</div>
+                            <div class="flex items-center gap-2"><i data-lucide="check" class="text-gold w-4 h-4"></i> All Meals (B,L,D)</div>
+                            <div class="flex items-center gap-2"><i data-lucide="check" class="text-gold w-4 h-4"></i> 4-Star Accommodation</div>
+                            <div class="flex items-center gap-2"><i data-lucide="check" class="text-gold w-4 h-4"></i> Sightseeing Tickets</div>
+                            <div class="flex items-center gap-2"><i data-lucide="check" class="text-gold w-4 h-4"></i> Visa Fees (On Arrival)</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white text-slate-900 rounded-3xl p-8 shadow-2xl">
+                <div class="bg-white text-navy rounded-3xl p-8 shadow-2xl">
                     <h3 class="font-serif text-2xl font-bold mb-6">Easy EMI Options</h3>
-                    <p class="text-sm text-slate-500 mb-6">Pay for your dream honeymoon in small monthly installments via Sankash.</p>
+                    <p class="text-sm text-slate-500 mb-6">Pay via Sankash in small monthly installments.</p>
                     
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center p-4 rounded-xl bg-cream border border-gray-200">
                             <span class="font-bold text-slate-600">6 Months</span>
-                            <span class="font-bold text-brand-dark">₹23,698 /mo</span>
+                            <span class="font-bold">₹23,698 /mo</span>
                         </div>
-                        <div class="flex justify-between items-center p-4 rounded-xl bg-slate-50 border border-slate-100">
+                        <div class="flex justify-between items-center p-4 rounded-xl bg-cream border border-gray-200">
                             <span class="font-bold text-slate-600">12 Months</span>
-                            <span class="font-bold text-brand-dark">₹12,610 /mo</span>
+                            <span class="font-bold">₹12,610 /mo</span>
                         </div>
-                        <div class="flex justify-between items-center p-4 rounded-xl bg-slate-50 border border-slate-100">
-                            <span class="font-bold text-slate-600">24 Months</span>
-                            <span class="font-bold text-brand-dark">₹7,111 /mo</span>
-                        </div>
-                        <div class="flex justify-between items-center p-4 rounded-xl bg-brand-gold/10 border border-brand-gold/20">
-                            <span class="font-bold text-brand-dark">48 Months</span>
-                            <span class="font-bold text-brand-dark">₹4,451 /mo</span>
+                        <div class="flex justify-between items-center p-4 rounded-xl bg-gold/10 border border-gold/30">
+                            <span class="font-bold text-navy">48 Months</span>
+                            <span class="font-bold text-navy">₹4,451 /mo</span>
                         </div>
                     </div>
                     <p class="text-xs text-center text-slate-400 mt-6">*Interest @ 1.25%. Processing fee extra.</p>
-                    <button class="w-full mt-4 bg-brand-dark text-white py-4 rounded-xl font-bold hover:bg-brand-accent transition">
+                    <button class="w-full mt-4 bg-navy text-white py-4 rounded-xl font-bold hover:bg-gold-dark transition shadow-lg">
                         Check Eligibility
                     </button>
                 </div>
@@ -396,17 +382,61 @@
         </div>
     </section>
 
+    <!-- Detailed Modals Overlay -->
+    <div x-show="modalOpen" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-navy/80 backdrop-blur-sm" x-cloak>
+        <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-fade-in-up" @click.away="modalOpen = null">
+            
+            <!-- Modal Content Logic -->
+            <div class="p-6 md:p-8">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="font-serif text-2xl font-bold text-navy" x-text="
+                        modalOpen === 1 ? 'Day 1: Arrival' :
+                        modalOpen === 2 ? 'Day 2: Islands' :
+                        modalOpen === 3 ? 'Day 3: James Bond' :
+                        modalOpen === 4 ? 'Day 4: Cabaret' :
+                        modalOpen === 5 ? 'Day 5: Gardens' :
+                        modalOpen === 6 ? 'Day 6: Shopping' :
+                        modalOpen === 7 ? 'Day 7: Safari' :
+                        'Day 8: Farewell'
+                    "></h3>
+                    <button @click="modalOpen = null" class="text-slate-400 hover:text-navy">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-4 text-slate-600">
+                    <!-- Dynamic Text based on modalOpen ID -->
+                    <p x-show="modalOpen === 1">Fly Mumbai to Krabi. Meet Tour Manager. Hotel Check-in. Evening at Ao Nang Beach.</p>
+                    <p x-show="modalOpen === 2">Speedboat to 4 Islands (Phra Nang, Tup, Chicken, Poda). Ferry to Phuket. Nightlife at Patong.</p>
+                    <p x-show="modalOpen === 3">Phang Nga Bay tour. James Bond Island. Evening Fantasea or Siam Niramit Show.</p>
+                    <p x-show="modalOpen === 4">Flight to Bangkok. Drive to Pattaya. Alcazar Cabaret Show.</p>
+                    <p x-show="modalOpen === 5">Coral Island (Parasailing inc). Nong Nooch Village. Scientific Thai Massage.</p>
+                    <p x-show="modalOpen === 6">Pattaya Tower. Gems Gallery. Drive to Bangkok. Shopping at Indra Square.</p>
+                    <p x-show="modalOpen === 7">Safari World & Marine Park. Chao Phraya Dinner Cruise.</p>
+                    <p x-show="modalOpen === 8">Bangkok City Tour. Wat Pho Temple. Airport Transfer. Flight to Mumbai.</p>
+                    
+                    <div class="p-4 bg-cream rounded-xl border border-gold/20 mt-4">
+                        <p class="text-xs font-bold text-gold uppercase tracking-wider mb-2">Included Today:</p>
+                        <div class="flex gap-4 text-sm font-medium">
+                            <span class="flex items-center gap-1"><i data-lucide="utensils" class="w-4 h-4"></i> Breakfast</span>
+                            <span class="flex items-center gap-1"><i data-lucide="utensils" class="w-4 h-4"></i> Lunch</span>
+                            <span class="flex items-center gap-1"><i data-lucide="utensils" class="w-4 h-4"></i> Dinner</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-50 px-6 py-4 flex justify-end">
+                <button @click="modalOpen = null" class="text-sm font-bold text-navy hover:text-gold uppercase tracking-wide">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-12 text-sm border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div>
-                <span class="font-serif text-white text-lg font-bold block mb-1">Veena World</span>
-                <span class="opacity-60">Travel. Explore. Celebrate Life.</span>
-            </div>
-            <div class="text-center md:text-right">
-                <p>Call: 1800 313 5555 | Email: travel@veenaworld.com</p>
-                <p class="mt-2 text-xs opacity-50">© 2013-2026 Veena Patil Hospitality Pvt Ltd. All Rights Reserved.</p>
-            </div>
+    <footer class="bg-navy text-slate-500 py-12 text-sm border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 text-center md:text-left flex flex-col md:flex-row justify-between items-center">
+            <p>© 2026 Veena World. All Rights Reserved.</p>
+            <p class="mt-2 md:mt-0">Made with ❤️ for ASHY</p>
         </div>
     </footer>
 
